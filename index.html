@@ -175,17 +175,29 @@
       letter-spacing: -.052em;
     }
     h1 {
-      font-family: "Arial Narrow", "Bahnschrift", "Segoe UI", system-ui, sans-serif;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
       text-transform: uppercase;
-      font-size: clamp(2.8rem, 7.2vw, 5.9rem);
-      line-height: .94;
-      max-width: 780px;
+      font-size: clamp(2.55rem, 5.1vw, 4.95rem);
+      line-height: .96;
+      max-width: 100%;
       text-wrap: balance;
+      overflow-wrap: normal;
     }
     h1 .signal {
+      display: block;
+      margin-top: .08em;
       color: transparent;
-      -webkit-text-stroke: 1px rgba(255,255,255,.82);
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke: clamp(.85px, .09vw, 1.25px) rgba(255,255,255,.86);
       text-shadow: none;
+      letter-spacing: -.065em;
+      font-weight: 950;
+    }
+    @supports not (-webkit-text-stroke: 1px #fff) {
+      h1 .signal {
+        color: rgba(255,255,255,.14);
+        text-shadow: 0 0 1px rgba(255,255,255,.72);
+      }
     }
     .hero-lede {
       margin: 24px 0 0;
@@ -366,11 +378,11 @@
       border-radius: 50%;
       background: var(--cyan);
     }
-    .orbit-label:nth-of-type(2) { left: 3%; top: 14%; }
-    .orbit-label:nth-of-type(3) { right: 0; top: 20%; }
-    .orbit-label:nth-of-type(4) { left: 0; bottom: 24%; }
-    .orbit-label:nth-of-type(5) { right: 1%; bottom: 18%; }
-    .orbit-label:nth-of-type(6) { left: 36%; bottom: -7%; }
+    .orbit-label:nth-of-type(1) { left: 3%; top: 14%; }
+    .orbit-label:nth-of-type(2) { right: 0; top: 20%; }
+    .orbit-label:nth-of-type(3) { left: 0; bottom: 24%; }
+    .orbit-label:nth-of-type(4) { right: 1%; bottom: 18%; }
+    .orbit-label:nth-of-type(5) { left: 36%; bottom: -7%; }
 
     main { position: relative; }
     .section {
@@ -567,6 +579,42 @@
       padding: 12px;
       overflow: hidden;
     }
+    .viewer-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 0 2px 12px;
+      color: rgba(255,255,255,.78);
+      font-size: .92rem;
+    }
+    .viewer-toolbar strong {
+      color: #fff;
+      letter-spacing: -.01em;
+    }
+    .viewer-controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .viewer-control {
+      appearance: none;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      min-height: 36px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 900;
+    }
+    .viewer-control:hover,
+    .viewer-control:focus {
+      background: rgba(255,255,255,.15);
+      outline: none;
+    }
     .featured-slide figure {
       margin: 0;
     }
@@ -595,17 +643,26 @@
       grid-template-columns: 84px 1fr;
       gap: 10px;
       align-items: center;
+      width: 100%;
+      text-align: left;
       text-decoration: none;
       padding: 9px;
       border-radius: 16px;
       background: rgba(255,255,255,.07);
       border: 1px solid rgba(255,255,255,.1);
       color: rgba(255,255,255,.8);
+      cursor: pointer;
+      font: inherit;
     }
     .slide-thumb:hover,
     .slide-thumb:focus {
       background: rgba(255,255,255,.13);
       outline: none;
+    }
+    .slide-thumb[aria-current="true"] {
+      background: rgba(84,232,255,.14);
+      border-color: rgba(84,232,255,.62);
+      box-shadow: inset 0 0 0 1px rgba(84,232,255,.18);
     }
     .slide-thumb img {
       width: 84px;
@@ -947,7 +1004,8 @@
 
     @media (max-width: 640px) {
       :root { --page: min(100vw - 26px, 1180px); }
-      h1 { font-size: clamp(2.55rem, 13vw, 4.3rem); }
+      h1 { font-size: clamp(2.2rem, 11.4vw, 3.65rem); }
+      h1 .signal { letter-spacing: -.07em; }
       .hero-copy { padding: 22px; border-radius: 26px; }
       .hero-lede { font-size: 1rem; }
       .button { width: 100%; }
@@ -1041,7 +1099,6 @@
           </div>
         </div>
       </div>
-      <span class="orbit-label"></span>
       <span class="orbit-label">Equipo</span>
       <span class="orbit-label">Calidad</span>
       <span class="orbit-label">Automatización</span>
@@ -1130,45 +1187,52 @@
 
       <div class="slide-viewer">
         <div class="featured-slide">
-          <figure id="slide-1">
-            <img src="assets/slides/slide-01.png" alt="Diapositiva 1: Introducir Scrum en una startup tecnológica">
-            <figcaption>Diapositiva 1/8 · Introducir Scrum en una startup tecnológica.</figcaption>
+          <div class="viewer-toolbar" aria-label="Controles del visor de diapositivas">
+            <strong id="slide-counter">Diapositiva 1/8</strong>
+            <div class="viewer-controls">
+              <button class="viewer-control" type="button" id="prev-slide" aria-label="Ver diapositiva anterior">← Anterior</button>
+              <button class="viewer-control" type="button" id="next-slide" aria-label="Ver diapositiva siguiente">Siguiente →</button>
+            </div>
+          </div>
+          <figure id="slide-current">
+            <img id="featured-slide-img" src="assets/slides/slide-01.png" alt="Diapositiva 1: Introducir Scrum en una startup tecnológica">
+            <figcaption id="featured-slide-caption">Diapositiva 1/8 · Introducir Scrum en una startup tecnológica.</figcaption>
           </figure>
         </div>
 
         <div class="slide-thumbs" aria-label="Miniaturas de la presentación">
-          <a class="slide-thumb" href="assets/slides/slide-01.png" target="_blank" rel="noopener">
+          <button class="slide-thumb" type="button" aria-current="true" data-slide="assets/slides/slide-01.png" data-alt="Diapositiva 1: Introducir Scrum en una startup tecnológica" data-caption="Diapositiva 1/8 · Introducir Scrum en una startup tecnológica.">
             <img src="assets/slides/slide-01.png" alt="">
             <span><b>1 · Portada</b><span>Propósito del cambio</span></span>
-          </a>
-          <a class="slide-thumb" href="assets/slides/slide-02.png" target="_blank" rel="noopener">
+          </button>
+          <button class="slide-thumb" type="button" data-slide="assets/slides/slide-02.png" data-alt="Diapositiva 2: Cinco preguntas, cinco decisiones de trabajo" data-caption="Diapositiva 2/8 · Cinco preguntas, cinco decisiones de trabajo.">
             <img src="assets/slides/slide-02.png" alt="">
             <span><b>2 · Cinco decisiones</b><span>Mapa ejecutivo</span></span>
-          </a>
-          <a class="slide-thumb" href="assets/slides/slide-03.png" target="_blank" rel="noopener">
+          </button>
+          <button class="slide-thumb" type="button" data-slide="assets/slides/slide-03.png" data-alt="Diapositiva 3: Empezar por el propósito, no por las ceremonias" data-caption="Diapositiva 3/8 · Propósito, Product Goal, roles, Backlog y Definition of Done.">
             <img src="assets/slides/slide-03.png" alt="">
             <span><b>3 · Fundamentos</b><span>Goal, roles, Backlog, DoD</span></span>
-          </a>
-          <a class="slide-thumb" href="assets/slides/slide-04.png" target="_blank" rel="noopener">
+          </button>
+          <button class="slide-thumb" type="button" data-slide="assets/slides/slide-04.png" data-alt="Diapositiva 4: De la intención al incremento usable" data-caption="Diapositiva 4/8 · Del Product Goal al incremento usable mediante un piloto.">
             <img src="assets/slides/slide-04.png" alt="">
             <span><b>4 · Piloto</b><span>Del objetivo al incremento</span></span>
-          </a>
-          <a class="slide-thumb" href="assets/slides/slide-05.png" target="_blank" rel="noopener">
+          </button>
+          <button class="slide-thumb" type="button" data-slide="assets/slides/slide-05.png" data-alt="Diapositiva 5: Gestionar la resistencia como información útil" data-caption="Diapositiva 5/8 · Resistencia, escucha activa, formación práctica y retrospectivas.">
             <img src="assets/slides/slide-05.png" alt="">
             <span><b>5 · Resistencia</b><span>Escuchar y experimentar</span></span>
-          </a>
-          <a class="slide-thumb" href="assets/slides/slide-06.png" target="_blank" rel="noopener">
+          </button>
+          <button class="slide-thumb" type="button" data-slide="assets/slides/slide-06.png" data-alt="Diapositiva 6: Completar tareas no equivale a entregar calidad" data-caption="Diapositiva 6/8 · Calidad, Definition of Done, testing, code review y deuda técnica.">
             <img src="assets/slides/slide-06.png" alt="">
             <span><b>6 · Calidad</b><span>Incremento usable</span></span>
-          </a>
-          <a class="slide-thumb" href="assets/slides/slide-07.png" target="_blank" rel="noopener">
+          </button>
+          <button class="slide-thumb" type="button" data-slide="assets/slides/slide-07.png" data-alt="Diapositiva 7: Automatizar donde haya impacto medible" data-caption="Diapositiva 7/8 · Automatización evaluada por impacto, esfuerzo, coste y riesgo.">
             <img src="assets/slides/slide-07.png" alt="">
             <span><b>7 · Automatización</b><span>Impacto medible</span></span>
-          </a>
-          <a class="slide-thumb" href="assets/slides/slide-08.png" target="_blank" rel="noopener">
+          </button>
+          <button class="slide-thumb" type="button" data-slide="assets/slides/slide-08.png" data-alt="Diapositiva 8: Transparencia y confianza en colaboración remota" data-caption="Diapositiva 8/8 · Colaboración remota, acuerdos de trabajo, eventos útiles y confianza.">
             <img src="assets/slides/slide-08.png" alt="">
             <span><b>8 · Colaboración</b><span>Transparencia y confianza</span></span>
-          </a>
+          </button>
         </div>
       </div>
     </section>
@@ -1331,6 +1395,52 @@
       <div>Publicado bajo licencia MIT · Sitio estático sin dependencias externas.</div>
     </div>
   </footer>
+
+
+  <script>
+    (function () {
+      const thumbs = Array.from(document.querySelectorAll(".slide-thumb"));
+      const image = document.getElementById("featured-slide-img");
+      const caption = document.getElementById("featured-slide-caption");
+      const counter = document.getElementById("slide-counter");
+      const prev = document.getElementById("prev-slide");
+      const next = document.getElementById("next-slide");
+      if (!thumbs.length || !image || !caption || !counter) return;
+
+      let current = 0;
+
+      function showSlide(index, focusThumb) {
+        current = (index + thumbs.length) % thumbs.length;
+        const thumb = thumbs[current];
+        image.src = thumb.dataset.slide;
+        image.alt = thumb.dataset.alt || "";
+        caption.textContent = thumb.dataset.caption || "";
+        counter.textContent = "Diapositiva " + (current + 1) + "/" + thumbs.length;
+        thumbs.forEach((item, i) => item.setAttribute("aria-current", i === current ? "true" : "false"));
+        if (focusThumb) thumbs[current].focus({ preventScroll: true });
+      }
+
+      thumbs.forEach((thumb, index) => {
+        thumb.addEventListener("click", () => showSlide(index, false));
+      });
+
+      if (prev) prev.addEventListener("click", () => showSlide(current - 1, false));
+      if (next) next.addEventListener("click", () => showSlide(current + 1, false));
+
+      document.addEventListener("keydown", (event) => {
+        const inViewer = document.activeElement && document.activeElement.closest && document.activeElement.closest(".presentation-section");
+        if (!inViewer) return;
+        if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          showSlide(current - 1, true);
+        }
+        if (event.key === "ArrowRight") {
+          event.preventDefault();
+          showSlide(current + 1, true);
+        }
+      });
+    }());
+  </script>
 
   <script>
     (function () {
