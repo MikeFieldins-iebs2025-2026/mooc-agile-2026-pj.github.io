@@ -1,17 +1,22 @@
-# Adopción Scrum en una startup tecnológica
+# Scrum Adoption Lab
 
-Página web estática, sin dependencias externas, para explicar visualmente la propuesta de adopción Scrum.
+Web estática sin dependencias externas para explicar visualmente la propuesta de adopción Scrum en una startup tecnológica que desarrolla una app móvil de gestión de tareas y proyectos.
 
 ## Archivos principales
 
-- `index.html`: página principal autocontenida con CSS y JavaScript embebidos.
-- `assets/slides/`: imágenes PNG generadas desde la presentación revisada para la previsualización.
-- `assets/docs/propuesta_adopcion_scrum_startup_revisada.pptx`: versión editable.
+- `index.html`: página completa con CSS y JavaScript embebidos.
+- `assets/slides/`: previsualizaciones PNG de las 8 diapositivas.
+- `assets/docs/propuesta_adopcion_scrum_startup_revisada.pptx`: presentación editable.
 - `assets/docs/propuesta_adopcion_scrum_startup_revisada.pdf`: versión PDF.
-- `LICENSE`: licencia MIT del sitio web.
+- `LICENSE`: licencia MIT.
 
 ## Uso
 
-Abrir `index.html` directamente en el navegador o publicar la carpeta completa en cualquier hosting estático.
+Abre `index.html` directamente en el navegador o publica la carpeta en cualquier servidor estático. No requiere instalación, build, CDN ni dependencias externas.
 
-No requiere npm, CDN, frameworks, fuentes externas ni conexión a Internet.
+## Cambios de esta versión
+
+- Se condensó el contenido previo al visor de la presentación.
+- El visor y la descarga de la presentación se adelantaron y se hicieron visibles desde la navegación.
+- Se ajustó el contraste y el tamaño del título del hero.
+- Se añadió el enlace de LinkedIn de Mike Fieldins en el footer.
