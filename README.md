@@ -20,3 +20,11 @@ Abre `index.html` directamente en el navegador o publica la carpeta en cualquier
 - El visor y la descarga de la presentación se adelantaron y se hicieron visibles desde la navegación.
 - Se ajustó el contraste y el tamaño del título del hero.
 - Se añadió el enlace de LinkedIn de Mike Fieldins en el footer.
+
+
+## Revisión v4
+
+- Ajuste de tipografía y encaje del título del hero.
+- Eliminación del orbit-label vacío preservando las posiciones de las etiquetas.
+- Visor interno de diapositivas con miniaturas, botones anterior/siguiente y navegación con flechas, sin dependencias externas.
+- Canvas WebGL mantenido detrás del título del hero.
